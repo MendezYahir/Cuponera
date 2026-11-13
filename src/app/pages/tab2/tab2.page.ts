@@ -1,5 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonText } from '@ionic/angular/standalone';
+import { 
+  IonHeader, IonToolbar, IonTitle, IonContent, 
+  IonChip, IonLabel 
+} from '@ionic/angular/standalone';
 import { Platform } from '@ionic/angular';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { ScreenBrightness, GetBrightnessReturnValue } from '@capacitor-community/screen-brightness';
@@ -13,8 +16,7 @@ import { Coupon } from 'src/app/models/coupon.model';
   styleUrls: ['tab2.page.scss'],
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, 
-    IonGrid, IonRow, IonCol, IonText, 
-    QRCodeComponent
+    IonChip, IonLabel, QRCodeComponent
   ]
 })
 export class Tab2Page {
@@ -23,6 +25,7 @@ export class Tab2Page {
   private platform: Platform = inject(Platform);
   
   QRCode!: string;
+  activeCoupons: Coupon[] = [];
   private currentBrightness!: GetBrightnessReturnValue;
 
   constructor() {}
@@ -44,8 +47,9 @@ export class Tab2Page {
     }
 
     const coupons: Coupon[] = await this.couponService.getCoupons();
-    const couponsActive: Coupon[] = coupons.filter((coupon: Coupon) => coupon.active);
-    this.QRCode = couponsActive.length > 0 ? JSON.stringify(couponsActive) : '';
+    
+    this.activeCoupons = coupons.filter((coupon: Coupon) => coupon.active);
+    this.QRCode = this.activeCoupons.length > 0 ? JSON.stringify(this.activeCoupons) : '';
   }
 
   ionViewDidLeave() {

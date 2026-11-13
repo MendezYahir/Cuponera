@@ -1,28 +1,31 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Canjear Cupones
-    </ion-title>
+    <ion-title class="ion-text-center">Canjear Cupones</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-grid class="ion-text-center h-100">
-    <ion-row class="ion-align-items-center h-100">
-      <ion-col>
-        
-        @if (QRCode) {
-          <qrcode 
-            [qrdata]="QRCode" 
-            [width]="256" 
-            [errorCorrectionLevel]="'M'" 
-            [elementType]="'svg'">
-          </qrcode>
-        } @else {
-          <ion-text>No hay cupones activos</ion-text>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="ion-text-center ion-margin-bottom">
+    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px;">Cupones Seleccionados:</h3>
+    
+    @if (activeCoupons.length > 0) {
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;">
+        @for (coupon of activeCoupons; track coupon.idProduct) {
+          <ion-chip color="secondary">
+            <ion-label>{{ coupon.name }} ({{ coupon.discount }}%)</ion-label>
+          </ion-chip>
         }
+      </div>
+    } @else {
+      <p style="color: #666; font-size: 0.9rem;">Ningún cupón seleccionado. Toca las tarjetas en la pestaña de cupones para activarlos.</p>
+    }
+  </div>
 
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="ion-text-center ion-margin-top" style="display: flex; justify-content: center;">
+    @if (QRCode) {
+      <qrcode [qrdata]="QRCode" [width]="220" [errorCorrectionLevel]="'M'"></qrcode>
+    } @else {
+      <p style="color: #888;">Selecciona al menos un cupón para generar el código QR.</p>
+    }
+  </div>
 </ion-content>

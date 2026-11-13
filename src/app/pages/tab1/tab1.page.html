@@ -13,42 +13,62 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-  <!-- Se añade value="candies" para que muestre la primera pestaña seleccionada al entrar -->
-  <ion-segment value="candies">
-    <ion-segment-button value="candies" content-id="candies">
+
+  <!-- Selector de Pestañas con desplazamiento horizontal -->
+  <ion-segment value="dulces" [scrollable]="true">
+    <ion-segment-button value="dulces" content-id="dulces">
       <ion-label>Dulces</ion-label>
     </ion-segment-button>
 
-    <ion-segment-button value="drinks" content-id="drinks">
+    <ion-segment-button value="bebidas" content-id="bebidas">
       <ion-label>Bebidas</ion-label>
     </ion-segment-button>
 
-    <ion-segment-button value="meats" content-id="meats">
+    <ion-segment-button value="carnes" content-id="carnes">
       <ion-label>Carnes</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="congelados" content-id="congelados">
+      <ion-label>Congelados</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="panaderia" content-id="panaderia">
+      <ion-label>Panadería</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="frutas" content-id="frutas">
+      <ion-label>Frutas y Verduras</ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <!-- Vistas de los segmentos -->
   <ion-segment-view>
-    <ion-segment-content id="candies">
-      <ng-container [ngTemplateOutlet]="couponTemplate"
-        [ngTemplateOutletContext]="{ category: 'candies' }">
-      </ng-container>
+    <ion-segment-content id="dulces">
+      <ng-container [ngTemplateOutlet]="couponTemplate" [ngTemplateOutletContext]="{ category: 'dulces' }"></ng-container>
     </ion-segment-content>
 
-    <ion-segment-content id="drinks">
-      <ng-container [ngTemplateOutlet]="couponTemplate"
-        [ngTemplateOutletContext]="{ category: 'drinks' }"></ng-container>
+    <ion-segment-content id="bebidas">
+      <ng-container [ngTemplateOutlet]="couponTemplate" [ngTemplateOutletContext]="{ category: 'bebidas' }"></ng-container>
     </ion-segment-content>
-    
-    <ion-segment-content id="meats">
-      <ng-container [ngTemplateOutlet]="couponTemplate"
-        [ngTemplateOutletContext]="{ category: 'meats' }"></ng-container>
+
+    <ion-segment-content id="carnes">
+      <ng-container [ngTemplateOutlet]="couponTemplate" [ngTemplateOutletContext]="{ category: 'carnes' }"></ng-container>
+    </ion-segment-content>
+
+    <ion-segment-content id="congelados">
+      <ng-container [ngTemplateOutlet]="couponTemplate" [ngTemplateOutletContext]="{ category: 'congelados' }"></ng-container>
+    </ion-segment-content>
+
+    <ion-segment-content id="panaderia">
+      <ng-container [ngTemplateOutlet]="couponTemplate" [ngTemplateOutletContext]="{ category: 'panaderia' }"></ng-container>
+    </ion-segment-content>
+
+    <ion-segment-content id="frutas">
+      <ng-container [ngTemplateOutlet]="couponTemplate" [ngTemplateOutletContext]="{ category: 'frutas' }"></ng-container>
     </ion-segment-content>
   </ion-segment-view>
 
-  <!-- ÚNICO TEMPLATE REUTILIZABLE (Maneja todas las pestañas de forma dinámica) -->
+  <!-- Plantilla del Grid de Cupones -->
   <ng-template #couponTemplate let-categoria="category">
     <ion-grid>
       <ion-row>
@@ -57,7 +77,11 @@
             <ion-card class="rounded"
               [color]="coupon.active ? 'secondary' : 'light'"
               (click)="changeActive(coupon)">
-              <ion-img [src]="coupon.img"></ion-img>
+              
+              <div class="card-img-container">
+                <img [src]="coupon.img" [alt]="coupon.name" />
+              </div>
+
               <ion-card-header class="ion-text-center">
                 <ion-card-subtitle>{{ coupon.name }}</ion-card-subtitle>
                 <ion-card-title>{{ coupon.discount }}%</ion-card-title>
